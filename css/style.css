@@ -1,0 +1,29 @@
+#main {
+	width: 1000px;
+	margin: 10px auto;
+}
+#wordsbox {
+	margin-top: 10px;
+}
+.wordbox {
+	padding: 20px 10px;
+	background-color: #DCEAF4;
+	border-radius: 3px 3px 3px 3px;
+	box-shadow: 1px 1px 3px #eee;
+}
+.wordbox span.title {
+	display: block;
+	font-size: 40px;
+	line-height: 40px;
+	text-align: center;
+}
+.wordbox p {
+	margin-top: 20px;
+}
+.btns {
+	margin: 30px auto;
+	text-align: center;
+}
+a.image {
+	text-align: center;
+}

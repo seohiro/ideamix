@@ -1,8 +1,12 @@
 <?php
 class mycurl {
-	private $curl_ch;
+	function __construct() {
+	}
 	
-	function mycurl($url) {
+	function __destruct() {
+	}
+	
+	function init($url) {
 		$ch = curl_init($url);
 		curl_setopt($ch, CURLOPT_TIMEOUT, 30);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
@@ -12,29 +16,31 @@ class mycurl {
 		curl_setopt($ch, CURLOPT_COOKIEJAR, dirname(__FILE__)."/tmp/cook.txt");
 		curl_setopt($ch, CURLOPT_COOKIEFILE, dirname(__FILE__)."/tmp/cook.txt");
 		curl_setopt($ch, CURLOPT_USERAGENT, "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.7; rv:6.0.2) Gecko/20100101 Firefox/6.0.2");
-		$this->curl_ch = $ch;
+		return $ch;
 	}
 	/**
 	 * curlを使ってURLからヘッダのみを抜いてくる
 	 */
-	function getHeaderByCurl($param=array()) {
-		curl_setopt($this->curl_ch, CURLOPT_NOBODY, TRUE);
+	function getHeaderByCurl($url, $param=array()) {
+		$ch = $this->init($url);
+		curl_setopt($ch, CURLOPT_NOBODY, TRUE);
 		if (sizeof($param)>0) {
-			curl_setopt($this->curl_ch, CURLOPT_POSTFIELDS, $param);
+			curl_setopt($ch, CURLOPT_POSTFIELDS, $param);
 		}
-		$ret = curl_exec($this->curl_ch);
-		curl_close($this->curl_ch);
+		$ret = curl_exec($ch);
+		curl_close($ch);
 		return $ret;
 	}
 	/**
 	 * curlを使ってURLからコンテンツを抜いてくる
 	 */
-	function getStrByCurl($param=array()) {
+	function getStrByCurl($url, $param=array()) {
+		$ch = $this->init($url);
 		if (sizeof($param)>0) {
-			curl_setopt($this->curl_ch, CURLOPT_POSTFIELDS, $param);
+			curl_setopt($ch, CURLOPT_POSTFIELDS, $param);
 		}
-		$ret = curl_exec($this->curl_ch);
-		curl_close($this->curl_ch);
+		$ret = curl_exec($ch);
+		curl_close($ch);
 		return $ret;
 	}
 	
