@@ -1,8 +1,7 @@
 <?php
-ini_set("display_errors", 1);
 require_once("class/mycurl.php");
 require_once("class/simple_html_dom.php");
-// wikipediaのランダム表示ページをセット
+// wikipedia's randomize page
 $url = "http://ja.wikipedia.org/wiki/%E7%89%B9%E5%88%A5:%E3%81%8A%E3%81%BE%E3%81%8B%E3%81%9B%E8%A1%A8%E7%A4%BA";
 $curl = new mycurl();
 $c = $curl->getStrByCurl($url);
@@ -25,15 +24,17 @@ $word2url = "http://ja.wikipedia.org/wiki/".$word2;
 <html lang="en-US">
 <head>
 	<meta charset="UTF-8">
-	<title>アイデアメーカー</title>
+	<title>idea mix</title>
 	<link rel="stylesheet" type="text/css" href="css/bootstrap.css" media="all" />
 	<link rel="stylesheet" type="text/css" href="css/style.css" media="all" />
 </head>
 <body>
 	<div id="main">
 		<div class="btns row">
-			<button class="btn" onclick="location.reload();">リロード</button>
+			<button class="btn" onclick="location.reload();">Reload</button>
 		</div>
+		
+		
 		<div id="wordsbox" class="row">
 			<div class="wordbox span8">
 				<span class="title">
@@ -42,6 +43,7 @@ $word2url = "http://ja.wikipedia.org/wiki/".$word2;
 					<?php echo $image1;?>
 				</span>
 			</div>
+			
 			<div class="wordbox span8">
 				<span class="title">
 					<a href="<?php echo $word2url;?>"><?php echo $word2;?></a>

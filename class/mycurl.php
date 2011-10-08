@@ -19,7 +19,7 @@ class mycurl {
 		return $ch;
 	}
 	/**
-	 * curlを使ってURLからヘッダのみを抜いてくる
+	 * get only header infomation by curl
 	 */
 	function getHeaderByCurl($url, $param=array()) {
 		$ch = $this->init($url);
@@ -32,7 +32,7 @@ class mycurl {
 		return $ret;
 	}
 	/**
-	 * curlを使ってURLからコンテンツを抜いてくる
+	 * get html infomation by curl
 	 */
 	function getStrByCurl($url, $param=array()) {
 		$ch = $this->init($url);
