@@ -1,9 +1,12 @@
 <?php
 class mycurl {
+	public $multi_handle;
 	function __construct() {
+		$this->multi_handle = curl_multi_init();
 	}
 	
 	function __destruct() {
+		curl_multi_close($this->multi_handle);
 	}
 	
 	function init($url) {
@@ -21,28 +24,45 @@ class mycurl {
 	/**
 	 * get only header infomation by curl
 	 */
-	function getHeaderByCurl($url, $param=array()) {
+	function setHeaderByCurl($url, $param=array()) {
 		$ch = $this->init($url);
 		curl_setopt($ch, CURLOPT_NOBODY, TRUE);
 		if (sizeof($param)>0) {
 			curl_setopt($ch, CURLOPT_POSTFIELDS, $param);
 		}
-		$ret = curl_exec($ch);
-		curl_close($ch);
-		return $ret;
+		curl_multi_add_handle($this->multi_handle, $ch);
+		return true;
 	}
 	/**
 	 * get html infomation by curl
 	 */
-	function getStrByCurl($url, $param=array()) {
+	function setStrByCurl($url, $param=array()) {
 		$ch = $this->init($url);
 		if (sizeof($param)>0) {
 			curl_setopt($ch, CURLOPT_POSTFIELDS, $param);
 		}
-		$ret = curl_exec($ch);
-		curl_close($ch);
-		return $ret;
+		curl_multi_add_handle($this->multi_handle, $ch);
+		return true;
 	}
 	
+	/*
+	 * exec
+	 */
+	function exec() {
+		$running = null;
+		$contents = array();
+		// exec handler
+		do {
+			curl_multi_exec($this->multi_handle, $running);
+		} while($running > 0);
+		
+		// read data
+		while ($info = curl_multi_info_read($this->multi_handle)) {
+			$ch = $info['handle'];
+			$contents[] = curl_multi_getcontent($ch);
+			curl_multi_remove_handle($this->multi_handle, $ch);
+		}
+		return $contents;
+	}
 }
 ?>
